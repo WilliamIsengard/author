@@ -6,7 +6,7 @@ require_once(dirname(__DIR__, 1) . "/Classes/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 
-$john = new author("", "www.google.com", "abcdefghijklmnopqrstuvwxyzabcdef", "test@test.com", "abcdefghijklmnopqrstuvwxyzabcdefabcdefghijklmnopqrstuvwxyzabcdefabcdefghijklmnopqrstuvwxyzabcdefg", "Testuser");
+$john = new Author("d441c4d8-efd0-4898-876a-1c39f94dc197", "www.google.com", "abcdefghijklmnopqrstuvwxyzabcdef", "test@test.com", "abcdefghijklmnopqrstuvwxyzabcdefabcdefghijklmnopqrstuvwxyzabcdefabcdefghijklmnopqrstuvwxyzabcdefg", "Testuser");
 
 //require_once("autoload.php");
 //require_once(dirname(__DIR__, 3) . "\Classes\Author.php");
