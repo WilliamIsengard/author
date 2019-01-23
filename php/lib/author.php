@@ -1,7 +1,7 @@
 <?php
 namespace Wisengard\Author;
 
-require_once(dirname(__DIR__, 1) . "\Classes\autoload.php");
+require_once(dirname(__DIR__, 2) . "/Classes/autoload.php");
 //require_once("\Users\willi\Desktop\bootcamp\git\author\php\Classes\Author.php");
 
 use Ramsey\Uuid\Uuid;
