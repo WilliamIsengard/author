@@ -1,5 +1,5 @@
 <?php
-namespace wisengard\author;
+namespace Wisengard\Author;
 require_once(dirname(__DIR__, 2) . "/Classes/autoload.php");
 use Ramsey\Uuid\Uuid;
 /**

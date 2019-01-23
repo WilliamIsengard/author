@@ -1,5 +1,5 @@
 <?php
-namespace wisengard\author;
+namespace Wisengard\Author;
 /**
  * Trait to Validate a mySQL Date
  *
