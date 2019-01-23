@@ -78,31 +78,31 @@ class author implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for tweet id
+	 * accessor method for author id
 	 *
-	 * @return Uuid value of tweet id
+	 * @return Uuid value of author id
 	 **/
-	public function getTweetId() : Uuid {
-		return($this->tweetId);
+	public function getAuthorId() : Uuid {
+		return($this->authorId);
 	}
 
 	/**
-	 * mutator method for tweet id
+	 * mutator method for author id
 	 *
-	 * @param Uuid|string $newTweetId new value of tweet id
-	 * @throws \RangeException if $newTweetId is not positive
-	 * @throws \TypeError if $newTweetId is not a uuid or string
+	 * @param Uuid|string $newAuthorId new value of author id
+	 * @throws \RangeException if $newAuthorId is not positive
+	 * @throws \TypeError if $newAuthorId is not a uuid or string
 	 **/
-	public function setTweetId( $newTweetId) : void {
+	public function setAuthorId( $newAuthorId) : void {
 		try {
-			$uuid = self::validateUuid($newTweetId);
+			$uuid = self::validateUuid($newAuthorId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
-		// convert and store the tweet id
-		$this->tweetId = $uuid;
+		// convert and store the author id
+		$this->authorId = $uuid;
 	}
 
 	/**
