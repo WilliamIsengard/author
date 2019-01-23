@@ -106,65 +106,37 @@ class author implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for tweet profile id
+	 * accessor method for avatar Url
 	 *
-	 * @return Uuid value of tweet profile id
+	 * @return string value of avatar Url
 	 **/
-	public function getTweetProfileId() : Uuid{
-		return($this->tweetProfileId);
+	public function getAuthorAvatarUrl() : string {
+		return($this->authorAvatarUrl);
 	}
 
 	/**
-	 * mutator method for tweet profile id
+	 * mutator method for avatar Url
 	 *
-	 * @param string | Uuid $newTweetProfileId new value of tweet profile id
-	 * @throws \RangeException if $newProfileId is not positive
-	 * @throws \TypeError if $newTweetProfileId is not an integer
+	 * @param string $newAuthorAvatarUrl new value of avatar Url
+	 * @throws \InvalidArgumentException if $newAuthorAvatarUrl is not a string or insecure
+	 * @throws \RangeException if $newAuthorAvatarUrl is > 255 characters
+	 * @throws \TypeError if $newAuthorAvatarUrl is not a string
 	 **/
-	public function setTweetProfileId( $newTweetProfileId) : void {
-		try {
-			$uuid = self::validateUuid($newTweetProfileId);
-		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+	public function setAuthorAvatarUrl(string $newAuthorAvatarUrl) : void {
+		// verify the avatar url content is secure
+		$newAuthorAvatarUrl = trim($newAuthorAvatarUrl);
+		$newAuthorAvatarUrl = filter_var($newAuthorAvatarUrl, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorAvatarUrl) === true) {
+			throw(new \InvalidArgumentException("avatar url is empty or insecure"));
 		}
 
-		// convert and store the profile id
-		$this->tweetProfileId = $uuid;
-	}
-
-	/**
-	 * accessor method for tweet content
-	 *
-	 * @return string value of tweet content
-	 **/
-	public function getTweetContent() : string {
-		return($this->tweetContent);
-	}
-
-	/**
-	 * mutator method for tweet content
-	 *
-	 * @param string $newTweetContent new value of tweet content
-	 * @throws \InvalidArgumentException if $newTweetContent is not a string or insecure
-	 * @throws \RangeException if $newTweetContent is > 140 characters
-	 * @throws \TypeError if $newTweetContent is not a string
-	 **/
-	public function setTweetContent(string $newTweetContent) : void {
-		// verify the tweet content is secure
-		$newTweetContent = trim($newTweetContent);
-		$newTweetContent = filter_var($newTweetContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newTweetContent) === true) {
-			throw(new \InvalidArgumentException("tweet content is empty or insecure"));
+		// verify the avatar url will fit in the database
+		if(strlen($newAuthorAvatarUrl) > 255) {
+			throw(new \RangeException("avatar url too large"));
 		}
 
-		// verify the tweet content will fit in the database
-		if(strlen($newTweetContent) > 140) {
-			throw(new \RangeException("tweet content too large"));
-		}
-
-		// store the tweet content
-		$this->tweetContent = $newTweetContent;
+		// store the avatar url
+		$this->authorAvatarUrl = $newAuthorAvatarUrl;
 	}
 
 	/**
