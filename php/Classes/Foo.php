@@ -1,8 +1,8 @@
 <?php
-namespace jtredway\DataDesign;
+namespace wisengard\author;
 
 require_once("autoload.php");
-require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
+require_once(dirname(__DIR__, 2) . "/Classes/autoload.php");
 
 use Ramsey\Uuid\Uuid;
 
@@ -12,17 +12,17 @@ use Ramsey\Uuid\Uuid;
  * This Tweet can be considered a small example of what services like Twitter store when messages are sent and
  * received using Twitter. This can easily be extended to emulate more features of Twitter.
  *
- * @author Dylan McDonald <dmcdonald21@cnm.edu>
- * @version 3.0.0
+ * @author William Isengard <william.isengard@gmail.com>
+ * @version 1.0.0
  **/
-class Tweet implements \JsonSerializable {
+class author implements \JsonSerializable {
 	use ValidateDate;
 	use ValidateUuid;
 	/**
 	 * id for this Tweet; this is the primary key
-	 * @var Uuid $tweetId
+	 * @var Uuid $authorId
 	 **/
-	private $tweetId;
+	private $authorId;
 	/**
 	 * id of the Profile that sent this Tweet; this is a foreign key
 	 * @var Uuid $tweetProfileId
