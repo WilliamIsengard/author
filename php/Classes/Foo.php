@@ -506,32 +506,32 @@ class author implements \JsonSerializable {
 		}
 
 		/**
-		 * gets the author by email
+		 * gets the author by Username
 		 *
 		 * @param \PDO $pdo PDO connection object
-		 * @param string $authorEmail to search for
+		 * @param string $authorUsername to search for
 		 * @return \SplFixedArray SplFixedArray of authors found
 		 * @throws \PDOException when mySQL related errors occur
 		 * @throws \TypeError when variables are not the correct data type
 		 **/
-		public static function getAuthorByAuthorEmail(\PDO $pdo, string $authorEmail) : \SplFixedArray {
+		public static function getAuthorByAuthorUsername(\PDO $pdo, string $authorUsername) : \SplFixedArray {
 			// sanitize the description before searching
-			$authorEmail = trim($authorEmail);
-			$authorEmail = filter_var($authorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-			if(empty($authorEmail) === true) {
-				throw(new \PDOException("email is invalid"));
+			$authorUsername = trim($authorUsername);
+			$authorUsername = filter_var($authorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($authorUsername) === true) {
+				throw(new \PDOException("username is invalid"));
 			}
 
 			// escape any mySQL wild cards
-			$authorEmail = str_replace("_", "\\_", str_replace("%", "\\%", $authorEmail));
+			$authorUsername = str_replace("_", "\\_", str_replace("%", "\\%", $authorUsername));
 
 			// create query template
-			$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author WHERE authorEmail LIKE :authorEmail";
+			$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author WHERE authorUsername LIKE :authorUsername";
 			$statement = $pdo->prepare($query);
 
-			// bind the email to the place holder in the template
-			$authorEmail = "%$authorEmail%";
-			$parameters = ["authorEmail" => $authorEmail];
+			// bind the username to the place holder in the template
+			$authorUsername = "%$authorUsername%";
+			$parameters = ["authorUsername" => $authorUsername];
 			$statement->execute($parameters);
 
 			// build an array of activation tokens
