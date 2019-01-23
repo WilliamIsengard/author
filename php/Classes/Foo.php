@@ -588,11 +588,12 @@ class author implements \JsonSerializable {
 	public function jsonSerialize() : array {
 		$fields = get_object_vars($this);
 
-		$fields["tweetId"] = $this->tweetId->toString();
-		$fields["tweetProfileId"] = $this->tweetProfileId->toString();
+		$fields["authorId"] = $this->authorId->toString();
+		$fields["authorAvatarUrl"] = $this->authorAvatarUrl->toString();
+		$fields["authorActivationToken"] = $this->authorActivationToken->toString();
+		$fields["authorEmail"] = $this->authorId->authorEmail();
+		$fields["authorHash"] = $this->authorId->authorHash();
+		$fields["authorUsername"] = $this->authorId->authorUsername();
 
-		//format the date so that the front end can consume it
-		$fields["tweetDate"] = round(floatval($this->tweetDate->format("U.u")) * 1000);
-		return($fields);
 	}
 }
