@@ -144,7 +144,7 @@ class author implements \JsonSerializable {
 	 *
 	 * @param string $newAuthorActivationToken new value of activation token
 	 * @throws \InvalidArgumentException if $newAuthorActivationToken is not a string or insecure
-	 * @throws \RangeException if $newAuthorActivationToken is > 255 characters
+	 * @throws \RangeException if $newAuthorActivationToken is > 32 characters
 	 * @throws \TypeError if $newAuthorActivationToken is not a string
 	 **/
 	public function setAuthorActivationToken(string $newAuthorActivationToken) : void {
@@ -156,12 +156,37 @@ class author implements \JsonSerializable {
 		}
 
 		// verify the activation token will fit in the database
-		if(strlen($newAuthorActivationToken) > 255) {
+		if(strlen($newAuthorActivationToken) > 32) {
 			throw(new \RangeException("activation token too large"));
 		}
 
 		// store the activation token
 		$this->authorActivationToken = $newAuthorActivationToken;
+	}
+
+	/**
+	 * mutator method for email
+	 *
+	 * @param string $newAuthorEmail new value of email
+	 * @throws \InvalidArgumentException if $newAuthorEmail is not a string or insecure
+	 * @throws \RangeException if $newAuthorEmail is > 128 characters
+	 * @throws \TypeError if $newAuthorEmail is not a string
+	 **/
+	public function setAuthorEmail(string $newAuthorEmail) : void {
+		// verify the email content is secure
+		$newAuthorEmail = trim($newAuthorEmail);
+		$newAuthorEmail = filter_var($newAuthorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorEmail) === true) {
+			throw(new \InvalidArgumentException("email is empty or insecure"));
+		}
+
+		// verify the email will fit in the database
+		if(strlen($newAuthorEmail) > 128) {
+			throw(new \RangeException("email too large"));
+		}
+
+		// store the email
+		$this->authorEmail = $newAuthorEmail;
 	}
 
 	/**
