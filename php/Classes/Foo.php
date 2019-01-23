@@ -325,12 +325,11 @@ class author implements \JsonSerializable {
 		return($author);
 	}
 
-
 	/**
 	 * gets the author by avatar url
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param string $authorAvatarUrl tweet content to search for
+	 * @param string $authorAvatarUrl to search for
 	 * @return \SplFixedArray SplFixedArray of authors found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -362,7 +361,7 @@ class author implements \JsonSerializable {
 			try {
 				$author = new author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
 				$authors[$authors->key()] = $author;
-				$authorss->next();
+				$authors->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -370,6 +369,51 @@ class author implements \JsonSerializable {
 		}
 		return($authors);
 	}
+
+		/**
+		 * gets the author by activation token
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @param string $authorActivationToken to search for
+		 * @return \SplFixedArray SplFixedArray of authors found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		public static function getAuthorByAuthorActivationToken(\PDO $pdo, string $authorActivationToken) : \SplFixedArray {
+			// sanitize the description before searching
+			$authorActivationToken = trim($authorActivationToken);
+			$authorActivationToken = filter_var($authorActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($authorActivationToken) === true) {
+				throw(new \PDOException("activation token is invalid"));
+			}
+
+			// escape any mySQL wild cards
+			$authorActivationToken = str_replace("_", "\\_", str_replace("%", "\\%", $authorActivationToken));
+
+			// create query template
+			$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author WHERE authorActivationToken LIKE :authorActivationToken";
+			$statement = $pdo->prepare($query);
+
+			// bind the activation token to the place holder in the template
+			$authorActivationToken = "%$authorActivationToken%";
+			$parameters = ["authorActivationToken" => $authorActivationToken];
+			$statement->execute($parameters);
+
+			// build an array of activation tokens
+			$authors = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$author = new author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
+					$authors[$authors->key()] = $author;
+					$authors->next();
+				} catch(\Exception $exception) {
+					// if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+			}
+			return($authors);
+		}
 
 	/**
 	 * gets all Tweets
