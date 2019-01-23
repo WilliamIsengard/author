@@ -42,9 +42,9 @@ class author implements \JsonSerializable {
 	private $authorHash;
 	/**
 	 * Author user name for profile
-	 * @var varchar $authorUserName
+	 * @var varchar $authorUsername
 	 **/
-	private $authorUserName;
+	private $authorUsername;
 
 	/**
 	 * constructor for this
@@ -54,7 +54,7 @@ class author implements \JsonSerializable {
 	 * @param string|char $newAuthorActivationToken activation token for new author
 	 * @param string|varchar $newAuthorEmail email address for new author
 	 * @param string|char $newAuthorHash hash for new author
-	 * @param string|varchar $newAuthorUsername user name for new author
+	 * @param string|varchar $newAuthorUsername username for new author
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
@@ -212,6 +212,31 @@ class author implements \JsonSerializable {
 
 		// store the hash
 		$this->authorHash = $newAuthorHash;
+	}
+
+	/**
+	 * mutator method for username
+	 *
+	 * @param string $newAuthorUsername new value of username
+	 * @throws \InvalidArgumentException if $newAuthorUsername is not a string or insecure
+	 * @throws \RangeException if $newAuthorUsername is > 32 characters
+	 * @throws \TypeError if $newAuthorUsername is not a string
+	 **/
+	public function setAuthorUsername(string $newAuthorUsername) : void {
+		// verify the username content is secure
+		$newAuthorUsername = trim($newAuthorUsername);
+		$newAuthorUsername = filter_var($newAuthorUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorUsername) === true) {
+			throw(new \InvalidArgumentException("username is empty or insecure"));
+		}
+
+		// verify the username will fit in the database
+		if(strlen($newAuthorUsername) > 32) {
+			throw(new \RangeException("username too large"));
+		}
+
+		// store the username
+		$this->authorUsername = $newAuthorUsername;
 	}
 
 	/**
