@@ -551,33 +551,33 @@ class author implements \JsonSerializable {
 		}
 
 	/**
-	 * gets all Tweets
+	 * gets all authors
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray SplFixedArray of Tweets found or null if not found
+	 * @return \SplFixedArray SplFixedArray of authors found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllTweets(\PDO $pdo) : \SPLFixedArray {
+	public static function getAllAuthors\PDO $pdo) : \SPLFixedArray {
 		// create query template
-		$query = "SELECT tweetId, tweetProfileId, tweetContent, tweetDate FROM tweet";
+		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of tweets
-		$tweets = new \SplFixedArray($statement->rowCount());
+		// build an array of authors
+		$authors = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$tweet = new Tweet($row["tweetId"], $row["tweetProfileId"], $row["tweetContent"], $row["tweetDate"]);
-				$tweets[$tweets->key()] = $tweet;
-				$tweets->next();
+				$author = new author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
+				$authorss[$authorss->key()] = $author;
+				$authors->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($tweets);
+		return ($authors);
 	}
 
 	/**
