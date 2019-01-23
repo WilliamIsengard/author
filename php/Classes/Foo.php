@@ -7,10 +7,7 @@ require_once(dirname(__DIR__, 2) . "/Classes/autoload.php");
 use Ramsey\Uuid\Uuid;
 
 /**
- * Small Cross Section of a Twitter like Message
- *
- * This Tweet can be considered a small example of what services like Twitter store when messages are sent and
- * received using Twitter. This can easily be extended to emulate more features of Twitter.
+ * Small Cross Section of an author profile
  *
  * @author William Isengard <william.isengard@gmail.com>
  * @version 1.0.0
@@ -19,31 +16,40 @@ class author implements \JsonSerializable {
 	use ValidateDate;
 	use ValidateUuid;
 	/**
-	 * id for this Tweet; this is the primary key
+	 * id for this author; this is the primary key
 	 * @var Uuid $authorId
 	 **/
 	private $authorId;
 	/**
-	 * id of the Profile that sent this Tweet; this is a foreign key
-	 * @var Uuid $tweetProfileId
+	 * Url for the author's avatar
+	 * @var binary $authorAvatarUrl
 	 **/
-	private $tweetProfileId;
+	private $authorAvatarUrl;
 	/**
-	 * actual textual content of this Tweet
-	 * @var string $tweetContent
+	 * Activation token for initial profile creation
+	 * @var char $authorActivationToken
 	 **/
-	private $tweetContent;
+	private $authorActivationToken;
 	/**
-	 * date and time this Tweet was sent, in a PHP DateTime object
-	 * @var \DateTime $tweetDate
+	 * Email address of author
+	 * @var varchar $authorEmail
 	 **/
-	private $tweetDate;
+	private $authorEmail;
+	/**
+	 * Hash data for author profile
+	 * @var char $authorHash
+	 **/
+	private $authorHash;
+	/**
+	 * Author user name for profile
+	 * @var varchar $authorUserName
+	 **/
+	private $authorUserName;
 
 	/**
-	 * constructor for this Tweet
+	 * constructor for this
 	 *
-	 * @param string|Uuid $newTweetId id of this Tweet or null if a new Tweet
-	 * @param string|Uuid $newTweetProfileId id of the Profile that sent this Tweet
+	 * @param string|Uuid $newAuthorId id of this author or null if a new author
 	 * @param string $newTweetContent string containing actual tweet data
 	 * @param \DateTime|string|null $newTweetDate date and time Tweet was sent or null if set to current date and time
 	 * @throws \InvalidArgumentException if data types are not valid
