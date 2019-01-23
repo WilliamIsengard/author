@@ -415,6 +415,51 @@ class author implements \JsonSerializable {
 			return($authors);
 		}
 
+		/**
+		 * gets the author by email
+		 *
+		 * @param \PDO $pdo PDO connection object
+		 * @param string $authorEmail to search for
+		 * @return \SplFixedArray SplFixedArray of authors found
+		 * @throws \PDOException when mySQL related errors occur
+		 * @throws \TypeError when variables are not the correct data type
+		 **/
+		public static function getAuthorByAuthorEmail(\PDO $pdo, string $authorEmail) : \SplFixedArray {
+			// sanitize the description before searching
+			$authorEmail = trim($authorEmail);
+			$authorEmail = filter_var($authorEmail, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			if(empty($authorEmail) === true) {
+				throw(new \PDOException("email is invalid"));
+			}
+
+			// escape any mySQL wild cards
+			$authorEmail = str_replace("_", "\\_", str_replace("%", "\\%", $authorEmail));
+
+			// create query template
+			$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author WHERE authorEmail LIKE :authorEmail";
+			$statement = $pdo->prepare($query);
+
+			// bind the email to the place holder in the template
+			$authorEmail = "%$authorEmail%";
+			$parameters = ["authorEmail" => $authorEmail];
+			$statement->execute($parameters);
+
+			// build an array of activation tokens
+			$authors = new \SplFixedArray($statement->rowCount());
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			while(($row = $statement->fetch()) !== false) {
+				try {
+					$author = new author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
+					$authors[$authors->key()] = $author;
+					$authors->next();
+				} catch(\Exception $exception) {
+					// if the row couldn't be converted, rethrow it
+					throw(new \PDOException($exception->getMessage(), 0, $exception));
+				}
+			}
+			return($authors);
+		}
+
 	/**
 	 * gets all Tweets
 	 *
