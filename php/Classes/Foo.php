@@ -9,8 +9,8 @@ use Ramsey\Uuid\Uuid;
 /**
  * Small Cross Section of an author profile
  *
- * @author William Isengard <william.isengard@gmail.com>
- * @version 1.0.0
+ * @author Dylan McDonald <dmcdonald21@cnm.edu>
+ * @version 3.0.0
  **/
 class author implements \JsonSerializable {
 	use ValidateDate;
@@ -49,21 +49,26 @@ class author implements \JsonSerializable {
 	/**
 	 * constructor for this
 	 *
-	 * @param string|Uuid $newAuthorId id of this author or null if a new author
-	 * @param string $newTweetContent string containing actual tweet data
-	 * @param \DateTime|string|null $newTweetDate date and time Tweet was sent or null if set to current date and time
+	 * @param string|Uuid $newAuthorId new id of this author or null if a new author
+	 * @param string|varchar $newAuthorAvatarUrl Url for the new author's avatar
+	 * @param string|char $newAuthorActivationToken activation token for new author
+	 * @param string|varchar $newAuthorEmail email address for new author
+	 * @param string|char $newAuthorHash hash for new author
+	 * @param string|varchar $newAuthorUsername user name for new author
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct($newTweetId, $newTweetProfileId, string $newTweetContent, $newTweetDate = null) {
+	public function __construct($newAuthorId, $newAuthorAvatarUrl, $newAuthorActivationToken, $newAuthorEmail, $newAuthorHash, $newAuthorUsername = null) {
 		try {
-			$this->setTweetId($newTweetId);
-			$this->setTweetProfileId($newTweetProfileId);
-			$this->setTweetContent($newTweetContent);
-			$this->setTweetDate($newTweetDate);
+			$this->setAuthorId($newAuthorId);
+			$this->setAuthorAvatarUrl($newAuthorAvatarUrl);
+			$this->setAuthorActivationToken($newAuthorActivationToken);
+			$this->setAuthorEmail($newAuthorEmail);
+			$this->setAuthorHash($newAuthorHash);
+			$this->setAuthorUsername($newAuthorUsername);
 		}
 			//determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
