@@ -14,12 +14,14 @@ use Ramsey\Uuid\Uuid;
  **/
 class Author {
 	use ValidateUuid;
-	/**
-	 * id for this author; this is the primary key
-	 * @var Uuid $authorId
-	 **/
+/**
+* @var Uuid $authorId
+**/
 	private $authorId;
 	/**
+	use ValidateUuid;
+	/**
+	 * id for this author; this is the primary key
 	 * Url for the author's avatar
 	 * @var string $authorAvatarUrl
 	 **/
