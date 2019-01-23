@@ -106,18 +106,18 @@ class author implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for avatar Url
+	 * accessor method for avatar url
 	 *
-	 * @return string value of avatar Url
+	 * @return string value of avatar url
 	 **/
 	public function getAuthorAvatarUrl() : string {
 		return($this->authorAvatarUrl);
 	}
 
 	/**
-	 * mutator method for avatar Url
+	 * mutator method for avatar url
 	 *
-	 * @param string $newAuthorAvatarUrl new value of avatar Url
+	 * @param string $newAuthorAvatarUrl new value of avatar url
 	 * @throws \InvalidArgumentException if $newAuthorAvatarUrl is not a string or insecure
 	 * @throws \RangeException if $newAuthorAvatarUrl is > 255 characters
 	 * @throws \TypeError if $newAuthorAvatarUrl is not a string
@@ -140,36 +140,28 @@ class author implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for tweet date
+	 * mutator method for activation token
 	 *
-	 * @return \DateTime value of tweet date
+	 * @param string $newAuthorActivationToken new value of activation token
+	 * @throws \InvalidArgumentException if $newAuthorActivationToken is not a string or insecure
+	 * @throws \RangeException if $newAuthorActivationToken is > 255 characters
+	 * @throws \TypeError if $newAuthorActivationToken is not a string
 	 **/
-	public function getTweetDate() : \DateTime {
-		return($this->tweetDate);
-	}
-
-	/**
-	 * mutator method for tweet date
-	 *
-	 * @param \DateTime|string|null $newTweetDate tweet date as a DateTime object or string (or null to load the current time)
-	 * @throws \InvalidArgumentException if $newTweetDate is not a valid object or string
-	 * @throws \RangeException if $newTweetDate is a date that does not exist
-	 **/
-	public function setTweetDate($newTweetDate = null) : void {
-		// base case: if the date is null, use the current date and time
-		if($newTweetDate === null) {
-			$this->tweetDate = new \DateTime();
-			return;
+	public function setAuthorActivationToken(string $newAuthorActivationToken) : void {
+		// verify the activation token content is secure
+		$newAuthorActivationToken = trim($newAuthorActivationToken);
+		$newAuthorActivationToken = filter_var($newAuthorActivationToken, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorActivationToken) === true) {
+			throw(new \InvalidArgumentException("activation token is empty or insecure"));
 		}
 
-		// store the like date using the ValidateDate trait
-		try {
-			$newTweetDate = self::validateDateTime($newTweetDate);
-		} catch(\InvalidArgumentException | \RangeException $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		// verify the activation token will fit in the database
+		if(strlen($newAuthorActivationToken) > 255) {
+			throw(new \RangeException("activation token too large"));
 		}
-		$this->tweetDate = $newTweetDate;
+
+		// store the activation token
+		$this->authorActivationToken = $newAuthorActivationToken;
 	}
 
 	/**
