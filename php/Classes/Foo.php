@@ -190,6 +190,31 @@ class author implements \JsonSerializable {
 	}
 
 	/**
+	 * mutator method for hash
+	 *
+	 * @param string $newAuthorHash new value of hash
+	 * @throws \InvalidArgumentException if $newAuthorHash is not a string or insecure
+	 * @throws \RangeException if $newAuthorHash is > 97 characters
+	 * @throws \TypeError if $newAuthorHash is not a string
+	 **/
+	public function setAuthorHash(string $newAuthorHash) : void {
+		// verify the hash content is secure
+		$newAuthorHash = trim($newAuthorHash);
+		$newAuthorHash = filter_var($newAuthorHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newAuthorHash) === true) {
+			throw(new \InvalidArgumentException("hash is empty or insecure"));
+		}
+
+		// verify the hash will fit in the database
+		if(strlen($newAuthorHash) > 97) {
+			throw(new \RangeException("hash too large"));
+		}
+
+		// store the hash
+		$this->authorHash = $newAuthorHash;
+	}
+
+	/**
 	 * inserts this Tweet into mySQL
 	 *
 	 * @param \PDO $pdo PDO connection object
