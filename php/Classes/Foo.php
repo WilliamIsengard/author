@@ -286,18 +286,18 @@ class author implements \JsonSerializable {
 	}
 
 	/**
-	 * gets the Tweet by tweetId
+	 * gets the author by authorId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param Uuid|string $tweetId tweet id to search for
-	 * @return Tweet|null Tweet found or null if not found
+	 * @param Uuid|string $authorId author id to search for
+	 * @return author|null author found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getTweetByTweetId(\PDO $pdo, $tweetId) : ?Tweet {
-		// sanitize the tweetId before searching
+	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
+		// sanitize the authorId before searching
 		try {
-			$tweetId = self::validateUuid($tweetId);
+			$authorId = self::validateUuid($authorId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
