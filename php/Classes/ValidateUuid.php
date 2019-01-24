@@ -1,7 +1,7 @@
 <?php
 namespace Wisengard\Author;
 require_once(dirname(__DIR__, 1) . "/Classes/autoload.php");
-use ramsey\uuid;
+use ramsey\uuid\Uuid;
 /**
  * Trait to validate a uuid
  *
