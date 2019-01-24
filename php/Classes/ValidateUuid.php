@@ -1,7 +1,7 @@
 <?php
 namespace Wisengard\Author;
 require_once(dirname(__DIR__, 1) . "/Classes/autoload.php");
-use Ramsey\Uuid\src\Uuid;
+use ramsey\uuid;
 /**
  * Trait to validate a uuid
  *
@@ -40,7 +40,7 @@ trait ValidateUuid {
 			} else {
 				throw(new \InvalidArgumentException("invalid uuid"));
 			}
-		} else if(gettype($newUuid) === "object" && get_class($newUuid) === "Ramsey\\Uuid\\Uuid") {
+		} else if(gettype($newUuid) === "object" && get_class($newUuid) === "ramsey\\uuid\\uuid") {
 			// if the misquote id is already a valid UUID, press on
 			$uuid = $newUuid;
 		} else {

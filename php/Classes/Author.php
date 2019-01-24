@@ -4,7 +4,7 @@ namespace Wisengard\Author;
 require_once("autoload.php");
 require_once(dirname(__DIR__, 1) . "/Classes/autoload.php");
 
-use Ramsey\Uuid\src\Uuid;
+use ramsey\uuid;
 
 /**
  * Small Cross Section of an author profile
