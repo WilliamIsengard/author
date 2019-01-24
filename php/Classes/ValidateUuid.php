@@ -19,6 +19,7 @@ trait ValidateUuid {
 	 * validates a uuid irrespective of format
 	 *
 	 * @param string|Uuid $newUuid uuid to validate
+	 * @return Uuid object with validated uuid
 	 * @throws \InvalidArgumentException if $newUuid is not a valid uuid
 	 * @throws \RangeException if $newUuid is not a valid uuid v4
 	 **/
@@ -33,7 +34,6 @@ trait ValidateUuid {
 			// 36 characters is a human readable uuid
 			if(strlen($newUuid) === 36) {
 				if(Uuid::isValid($newUuid) === false) {
-					return (Ramsey\Uuid\Uuid);
 					throw(new \InvalidArgumentException("invalid uuid"));
 				}
 				$uuid = Uuid::fromString($newUuid);
