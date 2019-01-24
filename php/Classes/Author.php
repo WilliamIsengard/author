@@ -4,7 +4,7 @@ namespace Wisengard\Author;
 require_once("autoload.php");
 require_once(dirname(__DIR__, 1) . "/Classes/autoload.php");
 
-use ramsey\uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Small Cross Section of an author profile
@@ -14,54 +14,51 @@ use ramsey\uuid\Uuid;
  **/
 class Author {
 	use ValidateUuid;
-/**
-* @var Uuid $authorId
-**/
+	/**
+ 	* id for this author; this is the primary key
+	* @var Uuid $authorId
+	**/
 	private $authorId;
 	/**
-	use ValidateUuid;
-	/**
-	 * id for this author; this is the primary key
-	 * Url for the author's avatar
-	 * @var string $authorAvatarUrl
-	 **/
+	* Url for the author's avatar
+	* @var string $authorAvatarUrl
+	**/
 	private $authorAvatarUrl;
 	/**
-	 * Activation token for initial profile creation
-	 * @var string $authorActivationToken
-	 **/
+	* Activation token for initial profile creation
+	* @var string $authorActivationToken
+	**/
 	private $authorActivationToken;
 	/**
-	 * Email address of author
-	 * @var string $authorEmail
-	 **/
+	* Email address of author
+	* @var string $authorEmail
+	**/
 	private $authorEmail;
 	/**
-	 * Hash data for author profile
-	 * @var string $authorHash
-	 **/
+	* Hash data for author profile
+	* @var string $authorHash
+	**/
 	private $authorHash;
 	/**
-	 * Author user name for profile
-	 * @var string $authorUsername
-	 **/
+	* Author user name for profile
+	* @var string $authorUsername
+	**/
 	private $authorUsername;
 
 	/**
-	 * constructor for this
-	 *
-	 * @param Uuid|string $newAuthorId new id of this author or null if a new author
-	 * @param string $newAuthorAvatarUrl Url for the new author's avatar
-	 * @param string $newAuthorActivationToken activation token for new author
-	 * @param string $newAuthorEmail email address for new author
-	 * @param string $newAuthorHash hash for new author
-	 * @param string $newAuthorUsername username for new author
-	 * @throws \InvalidArgumentException if data types are not valid
-	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
-	 * @throws \TypeError if data types violate type hints
-	 * @throws \Exception if some other exception occurs
-	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
-	 **/
+	* constructor for this
+	* @param Uuid|string $newAuthorId new id of this author or null if a new author
+	* @param string $newAuthorAvatarUrl Url for the new author's avatar
+	* @param string $newAuthorActivationToken activation token for new author
+	* @param string $newAuthorEmail email address for new author
+	* @param string $newAuthorHash hash for new author
+	* @param string $newAuthorUsername username for new author
+	* @throws \InvalidArgumentException if data types are not valid
+	* @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+	* @throws \TypeError if data types violate type hints
+	* @throws \Exception if some other exception occurs
+	* @Documentation https://php.net/manual/en/language.oop5.decon.php
+	**/
 	public function __construct($newAuthorId, string $newAuthorAvatarUrl, string $newAuthorActivationToken, string $newAuthorEmail, string $newAuthorHash, string $newAuthorUsername) {
 		try {
 			$this->setAuthorId($newAuthorId);
