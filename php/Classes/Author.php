@@ -226,6 +226,11 @@ public function insert(\PDO $pdo) : void {
 		$query = "INSERT INTO Author(authorId,authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername) VALUES(:authorId, :authorAvatarId, :authorActivationToken, :authorEmail. :authorHash, :authorUsername)";
 		$statement = $pdo->prepare($query);
 
+		// bind the member variables to the place holder in the template
+		$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorActivationToken" => $this->authorActivationToken->getBytes(), "authorEmail" => $this->authorEmail->getBytes(), "authorHash" => $this->authorHash->getBytes(), "authorUsername" => $this->authorUsername->getBytes()];
+				$statement->execute($parameters);
+	}
+
 	/**
 	 * deletes this author from mySQL
 	 *
@@ -256,6 +261,10 @@ public function insert(\PDO $pdo) : void {
 		// create query template
 		$query = "UPDATE Author SET authorId = :authorId, authorAvatarUrl = :authorAvatarUrl, authorActivationToken = :authorActivationToken, authorEmail = :authorEmail, authorHash = :authorHash, authorUsername = :authorUsername WHERE authorId = :authorId";
 		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holder in the template
+		$parameters = ["authorId" => $this->authorId->getBytes(), "authorAvatarUrl" => $this->authorAvatarUrl->getBytes(), "authorActivationToken" => $this->authorActivationToken->getBytes(), "authorEmail" => $this->authorEmail->getBytes(), "authorHash" => $this->authorHash->getBytes(), "authorUsername" => $this->authorUsername->getBytes()];
+		$statement->execute($parameters);
 
 	}
 
@@ -319,7 +328,7 @@ public function insert(\PDO $pdo) : void {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$author = new author($row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
-				$authorss[$authorss->key()] = $author;
+				$authors[$authors->key()] = $author;
 				$authors->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
