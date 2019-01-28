@@ -220,12 +220,12 @@ class Author implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-//	public function insert(\PDO $pdo) : void {
-//
-//		// create query template
-//		$query = "INSERT INTO author(authorId,authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername) VALUES(:authorId, :authorAvatarId, :authorActivationToken, :authorEmail. :authorHash, :authorUsername)";
-//		$statement = $pdo->prepare($query);
-//
+public function insert(\PDO $pdo) : void {
+
+		// create query template
+		$query = "INSERT INTO Author(authorId,authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername) VALUES(:authorId, :authorAvatarId, :authorActivationToken, :authorEmail. :authorHash, :authorUsername)";
+		$statement = $pdo->prepare($query);
+
 //	/**
 //	 * deletes this author from mySQL
 //	 *
