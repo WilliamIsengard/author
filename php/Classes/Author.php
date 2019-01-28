@@ -9,7 +9,7 @@ use Ramsey\Uuid\Uuid;
  * @author Dylan McDonald <dmcdonald21@cnm.edu>
  * @version 3.0.0
  **/
-class Author {
+class Author implements \JsonSerializable {
 	use ValidateUuid;
 	/**
 	 * id for this author; this is the primary key
@@ -553,20 +553,20 @@ class Author {
 //		}
 //		return ($authors);
 //	}
-//	/**
-//	 * formats the state variables for JSON serialization
-//	 *
-//	 * @return array resulting state variables to serialize
-//	 **/
-//	public function jsonSerialize() : array {
-//		$fields = get_object_vars($this);
-//
-//		$fields["authorId"] = $this->authorId->toString();
-//		$fields["authorAvatarUrl"] = $this->authorAvatarUrl->toString();
-//		$fields["authorActivationToken"] = $this->authorActivationToken->toString();
-//		$fields["authorEmail"] = $this->authorId->authorEmail();
-//		$fields["authorHash"] = $this->authorId->authorHash();
-//		$fields["authorUsername"] = $this->authorId->authorUsername();
-//
-//	}
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() : array {
+		$fields = get_object_vars($this);
+
+		$fields["authorId"] = $this->authorId->toString();
+		$fields["authorAvatarUrl"] = $this->authorAvatarUrl->toString();
+		$fields["authorActivationToken"] = $this->authorActivationToken->toString();
+		$fields["authorEmail"] = $this->authorId->authorEmail();
+		$fields["authorHash"] = $this->authorId->authorHash();
+		$fields["authorUsername"] = $this->authorId->authorUsername();
+
+	}
 }
