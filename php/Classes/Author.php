@@ -12,7 +12,7 @@ use Ramsey\Uuid\Uuid;
  * @author Dylan McDonald <dmcdonald21@cnm.edu>
  * @version 3.0.0
  **/
-class Author {
+class Author implements \JsonSerializable {
 	use ValidateUuid;
 	/**
  	* id for this author; this is the primary key
@@ -247,7 +247,7 @@ class Author {
 	public function insert(\PDO $pdo) : void {
 
 		// create query template
-		$query = "INSERT INTO Author(authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername) VALUES(:authorId, :authorAvatarId, :authorActivationToken, :authorEmail. :authorHash, :authorUsername)";
+		$query = "INSERT INTO author(authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername) VALUES(:authorId, :authorAvatarId, :authorActivationToken, :authorEmail. :authorHash, :authorUsername)";
 		$statement = $pdo->prepare($query);
 
 	/**
@@ -257,7 +257,7 @@ class Author {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function delete(\PDO $pdo) : void {
+	function delete(\PDO $pdo) : void {
 
 		// create query template
 		$query = "DELETE FROM Author WHERE authorId = :authorId";
@@ -275,7 +275,7 @@ class Author {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function update(\PDO $pdo) : void {
+	 function update(\PDO $pdo) : void {
 
 		// create query template
 		$query = "UPDATE Author SET authorId = :authorId, authorAvatarUrl = :authorAvatarUrl, authorActivationToken = :authorActivationToken, authorEmail = :authorEmail, authorHash = :authorHash, authorUsername = :authorUsername WHERE authorId = :authorId";
@@ -292,7 +292,7 @@ class Author {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
+	static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
 		// sanitize the authorId before searching
 		try {
 			$authorId = self::validateUuid($authorId);
@@ -301,7 +301,7 @@ class Author {
 		}
 
 		// create query template
-		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author WHERE authorId = :authorId";
+		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM Author WHERE authorId = :authorId";
 		$statement = $pdo->prepare($query);
 
 		// bind the author id to the place holder in the template
