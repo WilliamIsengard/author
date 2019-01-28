@@ -236,7 +236,7 @@ public function insert(\PDO $pdo) : void {
 	public function delete(\PDO $pdo) : void {
 
 		// create query template
-		$query = "DELETE FROM author WHERE authorId = :authorId";
+		$query = "DELETE FROM Author WHERE authorId = :authorId";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holder in the template
@@ -254,7 +254,7 @@ public function insert(\PDO $pdo) : void {
 	public function update(\PDO $pdo) : void {
 
 		// create query template
-		$query = "UPDATE author SET authorId = :authorId, authorAvatarUrl = :authorAvatarUrl, authorActivationToken = :authorActivationToken, authorEmail = :authorEmail, authorHash = :authorHash, authorUsername = :authorUsername WHERE authorId = :authorId";
+		$query = "UPDATE Author SET authorId = :authorId, authorAvatarUrl = :authorAvatarUrl, authorActivationToken = :authorActivationToken, authorEmail = :authorEmail, authorHash = :authorHash, authorUsername = :authorUsername WHERE authorId = :authorId";
 		$statement = $pdo->prepare($query);
 
 	}
@@ -268,7 +268,7 @@ public function insert(\PDO $pdo) : void {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?author {
+	public static function getAuthorByAuthorId(\PDO $pdo, $authorId) : ?Author {
 		// sanitize the authorId before searching
 		try {
 			$authorId = self::validateUuid($authorId);
@@ -277,7 +277,7 @@ public function insert(\PDO $pdo) : void {
 		}
 
 		// create query template
-		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author WHERE authorId = :authorId";
+		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM Author WHERE authorId = :authorId";
 		$statement = $pdo->prepare($query);
 
 		// bind the author id to the place holder in the template
@@ -290,7 +290,7 @@ public function insert(\PDO $pdo) : void {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$author = new author($row["authorId"], $row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
+				$author = new Author($row["authorId"], $row["authorId"], $row["authorAvatarUrl"], $row["authorActivationToken"], $row["authorEmail"], $row["authorHash"], $row["authorUsername"]);
 			}
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
@@ -309,7 +309,7 @@ public function insert(\PDO $pdo) : void {
 	 **/
 	public static function getAllAuthors\PDO $pdo) : \SPLFixedArray {
 		// create query template
-		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM author";
+		$query = "SELECT authorId, authorAvatarUrl, authorActivationToken, authorEmail, authorHash, authorUsername FROM Author";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
